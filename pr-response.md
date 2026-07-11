@@ -24,6 +24,9 @@
 **Tradeoff acknowledged:** This does expose users who never actively chose to be public, some of whom might prefer privacy by default. I accept this tradeoff because a watchlist represents intent ("I want to watch this"), which is lower-signal and less personal than a rated collection entry ("I watched this and rated it X"). Being public about *wanting* to watch a film carries less exposure risk than being public about a completed, rated viewing history, so the cost of the default being "wrong" for a given user is comparatively low.
 
 ## Comment 5 — Sort order
+
+**Note:** While writing the sort-order test, discovered that `WatchlistEntry` had no `film` relationship defined on the `Film` model (unlike `CollectionEntry`, which has `backref="film"`). This was a pre-existing bug masked by the fact that no prior test exercised `get_watchlist()`. Fixed by adding `watchlist_entries = db.relationship("WatchlistEntry", backref="film", lazy=True)` to `Film` in `models.py`.
+
 **My position:** Sort by `date_added.asc()` (oldest first), rather than either the current alphabetical order or the reviewer's suggested `date_added.desc()` (newest first).
 
 **Reasoning:** A watchlist is a "things I mean to get to" list, and the films most worth surfacing are the ones a user has been neglecting the longest, not the ones they just added (which are already fresh in their mind) and not whatever happens to come first alphabetically (which carries no meaningful signal for this feature). Sorting oldest-first turns the watchlist into a natural prompt to clear a backlog, which is the actual behavior a watchlist should encourage.
