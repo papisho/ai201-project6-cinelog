@@ -34,9 +34,11 @@
 **Engagement with reviewer's point:** I agree with the reviewer's core instinct that time, not title, is the right sort axis, since alphabetical order doesn't reflect how anyone actually thinks about a watchlist. Where I differ is the direction: newest-first optimizes for confirming a recent action ("did my add work?"), while oldest-first optimizes for the actual purpose of the list (surfacing what's been sitting untouched). The honest tradeoff is that oldest-first is less intuitive at the moment of adding: a user adds a film and doesn't see it appear at the top, which can feel like the action didn't register.
 
 ## Comment 6 — Rebase
-**What conflicted:**
-**How I resolved it:**
-**How I verified no conflict remains:**
+**What conflicted:** Running `git rebase origin/main` initially only flagged a conflict in `.gitignore` (both branches had independently added one; resolved by keeping my branch's version, which had the full ignore list). However, the real UUID migration issue did not surface as a git conflict at all — git's auto-merge silently dropped the entire `WatchlistEntry` class from `models.py` during replay, since `main`'s refactor commit rewrote large parts of that file and the line-based merge didn't detect an overlap warranting a conflict marker.
+
+**How I resolved it:** After the rebase reported "Successfully rebased," I ran the test suite and manually inspected `models.py`, discovering `WatchlistEntry` was missing entirely despite being imported elsewhere. I re-added the class with `film_id` now typed as `db.String(36)` (UUID) instead of `db.Integer`, matching the new `Film.id` type from main's refactor. I also updated the `add_to_watchlist()` docstring to reflect that `film_id` is now a UUID string, not an integer.
+
+**How I verified no conflict remains:** Ran `pytest tests/ -v` — all 8 tests pass. Ran `git diff origin/main feature/watchlist` across the watchlist-related files to manually confirm no other pieces were silently dropped during the auto-merge, since this incident showed that "no reported conflict" doesn't guarantee a correct merge.
 
 ## PR Description
 <!-- Written at the end — feature overview, design decisions, manual testing steps -->
