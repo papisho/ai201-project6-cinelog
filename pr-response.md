@@ -13,8 +13,8 @@
 **How I verified:** Ran `pytest tests/ -v` — all existing tests still pass. Manually confirmed the logic mirrors `add_to_collection()`'s dedup check line by line.
 
 ## Comment 3 — Missing test
-**What I did:**
-**How I verified:**
+**What I did:** Created `tests/test_watchlist.py`, following the fixture and structure pattern from `tests/test_collection.py`. Included the specifically requested test, `test_add_to_watchlist_nonexistent_film_raises` (modeled directly on `test_add_to_collection_nonexistent_film_raises`), plus two supporting tests: a happy-path test confirming a valid add creates a `WatchlistEntry`, and a duplicate test confirming the Comment 2 dedup fix actually works end to end.
+**How I verified:** Ran `pytest tests/test_watchlist.py -v` — all 3 tests pass. Ran the full suite with `pytest tests/ -v` to confirm nothing else broke.
 
 ## Comment 4 — Default visibility
 **My position:**
