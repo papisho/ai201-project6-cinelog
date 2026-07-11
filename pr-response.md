@@ -24,9 +24,11 @@
 **Tradeoff acknowledged:** This does expose users who never actively chose to be public, some of whom might prefer privacy by default. I accept this tradeoff because a watchlist represents intent ("I want to watch this"), which is lower-signal and less personal than a rated collection entry ("I watched this and rated it X"). Being public about *wanting* to watch a film carries less exposure risk than being public about a completed, rated viewing history, so the cost of the default being "wrong" for a given user is comparatively low.
 
 ## Comment 5 — Sort order
-**My position:**
-**Reasoning:**
-**Engagement with reviewer's point:**
+**My position:** Sort by `date_added.asc()` (oldest first), rather than either the current alphabetical order or the reviewer's suggested `date_added.desc()` (newest first).
+
+**Reasoning:** A watchlist is a "things I mean to get to" list, and the films most worth surfacing are the ones a user has been neglecting the longest, not the ones they just added (which are already fresh in their mind) and not whatever happens to come first alphabetically (which carries no meaningful signal for this feature). Sorting oldest-first turns the watchlist into a natural prompt to clear a backlog, which is the actual behavior a watchlist should encourage.
+
+**Engagement with reviewer's point:** I agree with the reviewer's core instinct that time, not title, is the right sort axis, since alphabetical order doesn't reflect how anyone actually thinks about a watchlist. Where I differ is the direction: newest-first optimizes for confirming a recent action ("did my add work?"), while oldest-first optimizes for the actual purpose of the list (surfacing what's been sitting untouched). The honest tradeoff is that oldest-first is less intuitive at the moment of adding: a user adds a film and doesn't see it appear at the top, which can feel like the action didn't register.
 
 ## Comment 6 — Rebase
 **What conflicted:**
